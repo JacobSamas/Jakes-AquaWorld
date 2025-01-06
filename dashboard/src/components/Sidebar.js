@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HomeIcon, UserGroupIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/outline'; // Correct v2 import
+import { HomeIcon, UserGroupIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/outline'; 
 
 const Sidebar = () => {
     const pathname = usePathname();
