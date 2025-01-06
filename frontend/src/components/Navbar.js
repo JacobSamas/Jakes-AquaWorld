@@ -1,10 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check authentication state on load
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token); // If token exists, user is logged in
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove the token
+    setIsLoggedIn(false);
+    window.location.href = "/"; // Redirect to home after logout
+  };
 
   return (
     <nav className="bg-aqua-dark text-white">
@@ -18,7 +31,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex space-x-4">
+          <div className="hidden md:flex space-x-4 items-center">
             <Link href="/" className="hover:text-aqua-light">
               Home
             </Link>
@@ -31,6 +44,18 @@ const Navbar = () => {
             <Link href="/contact" className="hover:text-aqua-light">
               Contact
             </Link>
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="hover:text-aqua-light focus:outline-none"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link href="/login" className="hover:text-aqua-light">
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -74,6 +99,18 @@ const Navbar = () => {
             <Link href="/contact" className="block hover:text-aqua-light">
               Contact
             </Link>
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="block w-full text-left hover:text-aqua-light"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link href="/login" className="block hover:text-aqua-light">
+                Login
+              </Link>
+            )}
           </div>
         </div>
       )}
