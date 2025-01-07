@@ -32,9 +32,6 @@ const Navbar = () => {
 
           {/* Desktop Links */}
           <div className="hidden md:flex space-x-4 items-center">
-            <Link href="/" className="hover:text-aqua-light">
-              Home
-            </Link>
             <Link href="/about" className="hover:text-aqua-light">
               About
             </Link>
@@ -87,9 +84,6 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-aqua-dark">
           <div className="space-y-2 px-4 pt-2 pb-4">
-            <Link href="/" className="block hover:text-aqua-light">
-              Home
-            </Link>
             <Link href="/about" className="block hover:text-aqua-light">
               About
             </Link>
