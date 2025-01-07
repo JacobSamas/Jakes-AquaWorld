@@ -2,8 +2,15 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
+  const router = useRouter();
+
+  const handleExploreNowClick = () => {
+    router.push('/shop');
+  };
+
   return (
     <div className="relative bg-aqua-light h-screen flex items-center justify-center">
       {/* Background Image */}
@@ -40,6 +47,7 @@ const Hero = () => {
           className="mt-8 px-6 py-3 bg-sand text-aqua-dark font-medium rounded-lg shadow-lg hover:bg-sand-light transition-transform transform hover:scale-105"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
+          onClick={handleExploreNowClick}
         >
           Explore Now
         </motion.button>
