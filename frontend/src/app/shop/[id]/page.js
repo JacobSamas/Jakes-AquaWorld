@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/store/slices/cartSlice";
 import Link from "next/link";
-import React from "react";
 
 const FishDetailPage = ({ params }) => {
   const router = useRouter();
-  const { id } = React.use(params);
+  const dispatch = useDispatch();
+  const { id } = params;
 
   const [fish, setFish] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,6 +41,20 @@ const FishDetailPage = ({ params }) => {
 
     fetchFishDetail();
   }, [id]);
+
+  const handleAddToCart = () => {
+    if (fish) {
+      dispatch(
+        addToCart({
+          id: fish.id,
+          name: fish.name,
+          price: fish.price,
+          quantity: 1,
+          image: fish.image,
+        })
+      );
+    }
+  };
 
   if (loading) {
     return <p className="text-center mt-20">Loading...</p>;
@@ -103,7 +119,10 @@ const FishDetailPage = ({ params }) => {
             <p className="text-lg mb-4">
               <strong>Diet:</strong> Omnivorous (example placeholder)
             </p>
-            <button className="mt-4 px-6 py-2 bg-white text-aqua-dark font-semibold rounded-lg shadow-lg hover:bg-gray-200">
+            <button
+              onClick={handleAddToCart}
+              className="mt-4 px-6 py-2 bg-white text-aqua-dark font-semibold rounded-lg shadow-lg hover:bg-gray-200"
+            >
               Add to Cart
             </button>
           </div>

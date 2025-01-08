@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Get cart item count from Redux
+  const cartItemCount = useSelector((state) => state.cart.items.length);
 
   // Check authentication state on load
   useEffect(() => {
@@ -53,6 +57,33 @@ const Navbar = () => {
                 Login
               </Link>
             )}
+            {/* Cart Icon */}
+            <Link href="/cart" className="relative hover:text-aqua-light">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 3h18l-2.25 9H5.25L3 3z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 21a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm6 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"
+                />
+              </svg>
+              {cartItemCount > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1.5">
+                  {cartItemCount}
+                </span>
+              )}
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -72,7 +103,11 @@ const Navbar = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
+                  d={
+                    isOpen
+                      ? "M6 18L18 6M6 6l12 12"
+                      : "M4 6h16M4 12h16m-7 6h7"
+                  }
                 />
               </svg>
             </button>
@@ -105,6 +140,10 @@ const Navbar = () => {
                 Login
               </Link>
             )}
+            {/* Mobile Cart Icon */}
+            <Link href="/cart" className="block hover:text-aqua-light">
+              Cart {cartItemCount > 0 && `(${cartItemCount})`}
+            </Link>
           </div>
         </div>
       )}
