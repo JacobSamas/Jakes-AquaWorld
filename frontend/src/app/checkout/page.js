@@ -15,8 +15,6 @@ const CheckoutPage = () => {
     address: "",
   });
 
-  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
-
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -27,7 +25,7 @@ const CheckoutPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePlaceOrder = async (e) => {
+  const handlePlaceOrder = (e) => {
     e.preventDefault();
 
     // Validate form
@@ -41,32 +39,8 @@ const CheckoutPage = () => {
       return;
     }
 
-    setIsPlacingOrder(true);
-
-    try {
-      const response = await fetch("http://localhost:5001/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          items: cartItems,
-          total: totalPrice,
-        }),
-      });
-
-      if (response.ok) {
-        toast.success("Order placed successfully!");
-        router.push("/thank-you");
-      } else {
-        const errorData = await response.json();
-        toast.error(errorData.message || "Failed to place the order.");
-      }
-    } catch (error) {
-      console.error("Error placing order:", error);
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsPlacingOrder(false);
-    }
+    // Navigate to Thank You Page
+    router.push("/thank-you");
   };
 
   if (cartItems.length === 0) {
@@ -161,12 +135,9 @@ const CheckoutPage = () => {
           {/* Place Order Button */}
           <button
             type="submit"
-            disabled={isPlacingOrder}
-            className={`w-full bg-aqua-dark text-white py-3 rounded-lg font-bold shadow-md hover:bg-aqua-light ${
-              isPlacingOrder ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className="w-full bg-aqua-dark text-white py-3 rounded-lg font-bold shadow-md hover:bg-aqua-light"
           >
-            {isPlacingOrder ? "Placing Order..." : "Place Order"}
+            Place Order
           </button>
         </form>
       </div>
